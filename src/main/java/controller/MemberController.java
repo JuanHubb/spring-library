@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
-    public final MemberService memberService;
+    private final MemberService memberService;
 
     @PostMapping("/members")
     public ResponseEntity<MemberResponse> addMember(@RequestBody MemberRequest memberRequest){
