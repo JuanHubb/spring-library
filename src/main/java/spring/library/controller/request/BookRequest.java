@@ -1,10 +1,11 @@
-package request;
+package spring.library.controller.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookRequest {
     private String title;
     private String author;

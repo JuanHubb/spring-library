@@ -1,6 +1,6 @@
-package response;
+package spring.library.controller.response;
 
-import dto.BookDto;
+import spring.library.dto.BookDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

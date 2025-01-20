@@ -1,12 +1,12 @@
-package controller;
+package spring.library.controller;
 
-import dto.MemberDto;
+import spring.library.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import request.MemberRequest;
-import response.MemberResponse;
-import service.MemberService;
+import spring.library.controller.request.MemberRequest;
+import spring.library.controller.response.MemberResponse;
+import spring.library.service.MemberService;
 import java.util.List;
 
 @RestController
@@ -17,7 +17,7 @@ public class MemberController {
     @PostMapping("/members")
     public ResponseEntity<MemberResponse> addMember(@RequestBody MemberRequest memberRequest){
         MemberDto memberDto = memberService.createMember(memberRequest);
-        return ResponseEntity.ok(MemberResponse.convertToMemberResponse(memberDto));
+        return ResponseEntity.ok().body(MemberResponse.convertToMemberResponse(memberDto));
     }
 
     @GetMapping("/members/{memberId}")
@@ -38,10 +38,10 @@ public class MemberController {
         return ResponseEntity.ok(memberResponse);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/members/{memberId}")
     public ResponseEntity<MemberResponse> deleteMember(@PathVariable Long memberId){
         memberService.deleteMemberById(memberId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }
 

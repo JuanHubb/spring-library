@@ -1,9 +1,9 @@
-package response;
+package spring.library.controller.response;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import dto.MemberDto;
+import spring.library.dto.MemberDto;
 
 @Getter
 @Setter

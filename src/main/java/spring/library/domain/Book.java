@@ -1,11 +1,11 @@
-package domain;
+package spring.library.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-import request.BookRequest;
+import spring.library.controller.request.BookRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,7 +16,8 @@ import request.BookRequest;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    @Column(name = "book_id")
+    private Long bookId;
     private String title;
     private String author;
     private String publisher;
@@ -24,6 +25,14 @@ public class Book {
     private String classification;
     private String status;
     private int amount;
+
+    @OneToMany(
+            mappedBy = "book",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<BookLoan> bookLoans =  new ArrayList<>();
+
 
     public Book update(BookRequest bookRequest) {
         title = bookRequest.getTitle();

@@ -1,10 +1,11 @@
-package request;
+package spring.library.controller.request;
 
-import jakarta.persistence.Id;
 import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberRequest {
     private String name;
     private Long idNumber;

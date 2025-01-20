@@ -1,6 +1,6 @@
-package repository;
+package spring.library.repository;
 
-import domain.Member;
+import spring.library.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {

@@ -1,8 +1,7 @@
-package dto;
+package spring.library.dto;
 
-import domain.Member;
+import spring.library.domain.Member;
 import lombok.*;
-import request.MemberRequest;
 
 @Getter
 @Setter

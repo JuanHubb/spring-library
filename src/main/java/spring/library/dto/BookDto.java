@@ -1,8 +1,7 @@
-package dto;
+package spring.library.dto;
 
-import domain.Book;
+import spring.library.domain.Book;
 import lombok.*;
-import request.BookRequest;
 
 @Getter
 @Setter

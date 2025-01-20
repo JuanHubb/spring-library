@@ -1,11 +1,11 @@
-package domain;
+package spring.library.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-import request.MemberRequest;
+import spring.library.controller.request.MemberRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -17,12 +17,20 @@ import request.MemberRequest;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long memberId;
     private String name;
     private Long idNumber;
     private String feature;
     private String email;
     private String phoneNumber;
+
+    @OneToMany(
+            mappedBy = "member",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<BookLoan> bookLoans =  new ArrayList<>();
 
     public Member update(MemberRequest memberRequest) {
         name = memberRequest.getName();
