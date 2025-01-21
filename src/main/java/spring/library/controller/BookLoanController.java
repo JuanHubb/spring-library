@@ -1,6 +1,7 @@
 package spring.library.controller;
 
 import spring.library.controller.request.BookLoanRequest;
+import spring.library.controller.response.BookLoanHistoryResponse;
 import spring.library.dto.BookLoanDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,8 @@ public class BookLoanController {
     }
 
     @GetMapping("/books/history")
-    public ResponseEntity<List<BookLoanResponse>> getBookLoanHistory(){
-        List<BookLoanResponse> bookLoans = bookLoanService.getBookLoanHistory().stream().map(BookLoanResponse::convertToBookLoanResponse).toList();
+    public ResponseEntity<List<BookLoanHistoryResponse>> getBookLoanHistory(){
+        List<BookLoanHistoryResponse> bookLoans = bookLoanService.getBookLoanHistory().stream().map(BookLoanHistoryResponse::convertToBookLoanHistoryResponse).toList();
         return ResponseEntity.ok(bookLoans);
     }
 

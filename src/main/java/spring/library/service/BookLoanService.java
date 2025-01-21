@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import spring.library.repository.BookLoanRepository;
 import spring.library.repository.BookRepository;
 import spring.library.repository.MemberRepository;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import static spring.library.common.DateCounter.today;
 
 @Service
 @Getter
@@ -57,13 +57,16 @@ public class BookLoanService {
     @Transactional
     public BookLoanDto returnABook(Long bookLoanId){
         BookLoan targetBook = bookLoanRepository.findById(bookLoanId).orElseThrow(() -> new IllegalArgumentException("해당 도서가 존재하지 않습니다."));
+        if (targetBook.getIsReturned()){
+            throw new MyException("이미 반납이 완료된 도서입니다.");
+        }
         return BookLoanDto.convertToBookLoanDto(targetBook.update());
     }
 
     @Transactional
     public BookLoanDto extendLoan(Long bookLoanId){
         BookLoan targetBook = bookLoanRepository.findById(bookLoanId).orElseThrow(() -> new IllegalArgumentException("해당 도서가 존재하지 않습니다."));
-        if (!targetBook.getLoanDate().equals(targetBook.getDueDate())) {
+        if (!targetBook.getDueDate().equals(today())) {
             throw new MyException("반납일에만 기간 연장이 가능합니다.");
         }
         return BookLoanDto.convertToBookLoanDto(targetBook.extendLoanDate());

@@ -39,10 +39,12 @@ public class BookLoan {
         if (!isReturned){
             if (renewalCount > 0) {
                 renewalCount--;
-                dueDate = DateCounter.extendDuration(loanDate);
+                dueDate = DateCounter.extendDuration(dueDate);
             }else{
                 throw new MyException("연장이 불가능합니다.");
             }
+        }else{
+            throw new MyException("대출 중인 도서가 아닙니다.");
         }
         return this;
     }
