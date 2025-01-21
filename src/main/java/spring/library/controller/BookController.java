@@ -15,31 +15,31 @@ import java.util.List;
 public class BookController {
     public final BookService bookService;
 
-    @PostMapping("/book")
+    @PostMapping("/books")
     public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest bookRequest){
         BookDto bookDto = bookService.createBook(bookRequest);
         return ResponseEntity.ok(BookResponse.convertToBookResponse(bookDto));
     }
 
-    @GetMapping("/book/{bookId}")
+    @GetMapping("/books/{bookId}")
     public ResponseEntity<BookResponse> getBook(@PathVariable Long bookId){
         BookDto bookDto = bookService.getBookById(bookId);
         return ResponseEntity.ok(BookResponse.convertToBookResponse(bookDto));
     }
 
-    @GetMapping("/book")
-    public ResponseEntity<List<BookResponse>> getAllBook(){
-        List<BookResponse> book = bookService.getAllBook().stream().map(BookResponse::convertToBookResponse).toList();
+    @GetMapping("/books")
+    public ResponseEntity<List<BookResponse>> getAllBooks(){
+        List<BookResponse> book = bookService.getAllBooks().stream().map(BookResponse::convertToBookResponse).toList();
         return ResponseEntity.ok(book);
     }
 
-    @PutMapping("/book/{bookId}")
+    @PutMapping("/books/{bookId}")
     public ResponseEntity<BookResponse> updateBook(@PathVariable Long bookId, @RequestBody BookRequest bookRequest){
         BookResponse bookResponse = BookResponse.convertToBookResponse(bookService.updateBookById(bookId, bookRequest));
         return ResponseEntity.ok(bookResponse);
     }
 
-    @DeleteMapping("/book/{bookId}")
+    @DeleteMapping("/books/{bookId}")
     public ResponseEntity<BookResponse> deleteBook(@PathVariable Long bookId){
         bookService.deleteBookById(bookId);
         return ResponseEntity.noContent().build();

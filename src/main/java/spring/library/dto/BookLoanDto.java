@@ -9,19 +9,22 @@ import lombok.Setter;
 @Setter
 @Builder
 public class BookLoanDto {
+    private Long bookId;
     private String loanDate;
     private String dueDate;
-    private Boolean extendable;
     private int renewalCount;
-    private boolean isReturned;
+    private Boolean isReturned;
+    private MemberDto member;
+    private BookDto book;
 
     public static BookLoanDto convertToBookLoanDto(BookLoan bookLoan) {
         return BookLoanDto.builder()
+                .bookId(bookLoan.getBook().getBookId())
+                .book(BookDto.convertToBookDto(bookLoan.getBook()))
                 .loanDate(bookLoan.getLoanDate())
                 .dueDate(bookLoan.getDueDate())
-                .extendable(bookLoan.getExtendable())
                 .renewalCount(bookLoan.getRenewalCount())
-                .isReturned(bookLoan.isReturned())
+                .isReturned(bookLoan.getIsReturned())
                 .build();
     }
 }

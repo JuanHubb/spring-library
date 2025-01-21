@@ -2,10 +2,9 @@ package spring.library.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import spring.library.controller.request.BookLoanRequest;
+import spring.library.libraryClock.DateCounter;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
 
 @Entity
 @Getter
@@ -19,10 +18,8 @@ public class BookLoan {
     private Long ManagingId;
     private String loanDate;
     private String dueDate;
-    private Boolean extendable;
     private int renewalCount;
-    private boolean isReturned;
-
+    private Boolean isReturned;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
@@ -33,25 +30,22 @@ public class BookLoan {
     private Book book;
 
 
-//    public static String currentTime() {
-//        Date now = new Date();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        return dateFormat.format(now);
-//    }
-
-
-    public BookLoan update(BookLoanRequest bookLoanRequest) {
+    public BookLoan update() {
+        isReturned = true;
         return this;
     }
 
-    public static BookLoan convertToBookLoan(Member member, Book book){
+    public static BookLoan convertToBookLoan(Member member, Book book) throws ParseException {
         return BookLoan.builder()
                 .member(member)
                 .book(book)
-                .loanDate()
-                .extendable()
+                .loanDate(DateCounter.today())
+                .dueDate(DateCounter.setDueDateByFeature(member.getFeature()))
                 .renewalCount(1)
                 .isReturned(false)
                 .build();
     }
 }
+
+//
+//

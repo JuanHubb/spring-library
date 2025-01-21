@@ -28,7 +28,7 @@ public class BookService {
         return BookDto.convertToBookDto(bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다.")));
     }
 
-    public List<BookDto> getAllBook(){
+    public List<BookDto> getAllBooks(){
         return bookRepository.findAll().stream().map(BookDto::convertToBookDto).toList();
     }
 

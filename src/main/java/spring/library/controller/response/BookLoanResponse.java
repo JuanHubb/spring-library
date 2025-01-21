@@ -9,19 +9,19 @@ import spring.library.dto.BookLoanDto;
 @AllArgsConstructor
 @Builder
 public class BookLoanResponse {
+    private Long bookId;
     private String loanDate;
     private String dueDate;
-    private Boolean extendable;
     private int renewalCount;
-    private boolean isReturned;
+    private Boolean isReturned;
 
     public static BookLoanResponse convertToBookLoanResponse(BookLoanDto bookLoanDto){
         return BookLoanResponse.builder()
+                .bookId(bookLoanDto.getBookId())
                 .loanDate(bookLoanDto.getLoanDate())
                 .dueDate(bookLoanDto.getDueDate())
-                .extendable(bookLoanDto.getExtendable())
                 .renewalCount(bookLoanDto.getRenewalCount())
-                .isReturned(bookLoanDto.isReturned())
+                .isReturned(bookLoanDto.getIsReturned())
                 .build();
     }
 }

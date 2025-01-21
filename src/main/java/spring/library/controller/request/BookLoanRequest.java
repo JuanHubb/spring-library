@@ -1,14 +1,14 @@
 package spring.library.controller.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookLoanRequest {
-    private String loanDate;
-    private String dueDate;
-    private Boolean extendable;
-    private int renewalCount;
-    private boolean isReturned;
+private Long memberId;
 }
