@@ -1,5 +1,6 @@
 package spring.library.service;
 
+import spring.library.common.MyException;
 import spring.library.controller.request.BookLoanRequest;
 import spring.library.domain.Book;
 import spring.library.domain.BookLoan;
@@ -30,6 +31,10 @@ public class BookLoanService {
     public BookLoanDto createBookLoan(BookLoanRequest bookLoanRequest, Long bookId) throws ParseException {
         Member member = memberRepository.findById(bookLoanRequest.getMemberId()).orElseThrow(()-> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         Book book = bookRepository.findById(bookId).orElseThrow(()-> new IllegalArgumentException("해당 도서가 존재하지 않습니다."));
+
+        if(!isLoanAvailable(determineLoanLimit(member.getFeature()))){
+            throw new MyException("대출 가능한 권수가 없습니다");
+        }
         BookLoan bookLoan = BookLoan.convertToBookLoan(member,book);
         return BookLoanDto.convertToBookLoanDto(bookLoanRepository.save(bookLoan));
     }
@@ -53,6 +58,36 @@ public class BookLoanService {
     public BookLoanDto returnABook(Long bookLoanId){
         BookLoan targetBook = bookLoanRepository.findById(bookLoanId).orElseThrow(() -> new IllegalArgumentException("해당 도서가 존재하지 않습니다."));
         return BookLoanDto.convertToBookLoanDto(targetBook.update());
+    }
+
+    @Transactional
+    public BookLoanDto extendLoan(Long bookLoanId){
+        BookLoan targetBook = bookLoanRepository.findById(bookLoanId).orElseThrow(() -> new IllegalArgumentException("해당 도서가 존재하지 않습니다."));
+        if (!targetBook.getLoanDate().equals(targetBook.getDueDate())) {
+            throw new MyException("반납일에만 기간 연장이 가능합니다.");
+        }
+        return BookLoanDto.convertToBookLoanDto(targetBook.extendLoanDate());
+    }
+
+    public int determineLoanLimit(String feature){
+        return switch (feature) {
+            case "관리자" -> 10;
+            case "교직원" -> 20;
+            case "학생" -> 100;
+            default -> 0;
+        };
+    }
+
+    public Boolean isLoanAvailable(int totalAmount) {
+        List<BookLoan> targetBooks = bookLoanRepository.findAll();
+        int booksOnLoanCount = 0;
+
+        for (BookLoan eachBookLoan : targetBooks) {
+            if (!eachBookLoan.getIsReturned()) {
+                booksOnLoanCount++;
+            }
+        }
+        return booksOnLoanCount < totalAmount;
     }
 }
 

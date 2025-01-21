@@ -40,11 +40,11 @@ public class BookLoanController {
         return ResponseEntity.ok(bookLoanResponse);
     }
 
-//    @PutMapping("/bookLoans/{bookLoanId}/renewal")
-//    public ResponseEntity<BookLoanResponse> updateBookLoan(@PathVariable Long bookLoanId, @RequestBody BookLoanRequest bookLoanRequest){
-//        BookLoanResponse bookLoanResponse = BookLoanResponse.convertToBookLoanResponse(bookLoanService.updateBookLoanById(bookLoanId, bookLoanRequest));
-//        return ResponseEntity.ok(bookLoanResponse);
-//    }
+    @PutMapping("/books/{bookLoanId}/renewal")
+    public ResponseEntity<BookLoanResponse> extendLoan(@PathVariable Long bookLoanId){
+        BookLoanResponse bookLoanResponse = BookLoanResponse.convertToBookLoanResponse(bookLoanService.extendLoan(bookLoanId));
+        return ResponseEntity.ok(bookLoanResponse);
+    }
 }
 
 
